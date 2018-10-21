@@ -1,0 +1,30 @@
+#! /usr/bin/env perl
+
+use v5.12;
+use warnings;
+
+use FindBin;
+use local::lib $FindBin::Bin =~ s{/bin$}{/local-lib}r;
+use lib $FindBin::Bin =~ s{/bin$}{/lib}r;
+
+use Getopt::Long;
+
+use JCC::Queue::Schema;
+
+my $schema = JCC::Queue::Schema->connect('dbi:SQLite:dbname='.($FindBin::Bin =~ s{/bin$}{/data/queue.db}r));
+
+GetOptions(
+    'c|category=s' => \my $category,
+) or die "Error in command line arguments";
+
+my @urls = @ARGV;
+unless (@urls) {
+    @urls = map { chomp; $_ } <>;
+}
+
+for my $url (@urls) {
+    $schema->resultset('Item')->create({
+        category => $category,
+        url => $url,
+    });
+}

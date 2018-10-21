@@ -1,0 +1,5 @@
+DBIx::Class
+DBIx::Class::Candy
+DBIx::Class::Helpers
+DBIx::Class::Migration
+Moops

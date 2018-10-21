@@ -1,0 +1,12 @@
+#! /bin/sh
+
+cpanm -l local-lib -n $(cat ./perl-deps) &&
+mkdir -p data &&
+if [ -f data/queue.db ]; then
+    ./bin/db prepare --force_overwrite &&
+    ./bin/db upgrade
+else
+    ./bin/db prepare --force_overwrite &&
+    ./bin/db install
+fi &&
+true

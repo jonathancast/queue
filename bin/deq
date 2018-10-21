@@ -1,0 +1,31 @@
+#! /usr/bin/env perl
+
+use v5.12;
+use warnings;
+use autodie qw/ :all /;
+
+use FindBin;
+use local::lib $FindBin::Bin =~ s{/bin$}{/local-lib}r;
+use lib $FindBin::Bin =~ s{/bin$}{/lib}r;
+
+use Getopt::Long;
+
+use JCC::Queue::Schema;
+
+my $schema = JCC::Queue::Schema->connect('dbi:SQLite:dbname='.($FindBin::Bin =~ s{/bin$}{/data/queue.db}r));
+
+GetOptions(
+    'c|category=s' => \my $category,
+) or die "Error in command line arguments";
+
+my $url = $schema->resultset('Item')
+    ->search({ category => $category, })
+    ->order_by('id')
+    ->limit(1)
+    ->single()
+;
+
+if ($url) {
+    system q{browse}, $url->url;
+    $url->delete();
+}
