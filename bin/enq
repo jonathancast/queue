@@ -17,12 +17,18 @@ GetOptions(
     'c|category=s' => \my $category,
 ) or die "Error in command line arguments";
 
-my @urls = @ARGV;
-unless (@urls) {
-    @urls = map { chomp; $_ } <>;
+if (@ARGV) {
+    enqueue($_) for @ARGV;
+} else {
+    while (<>) {
+        chomp;
+        enqueue($_);
+    }
 }
 
-for my $url (@urls) {
+sub enqueue {
+    my ($url) = @_;
+
     $schema->resultset('Item')->create({
         category => $category,
         url => $url,
