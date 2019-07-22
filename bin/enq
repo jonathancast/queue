@@ -29,7 +29,7 @@ if (@ARGV) {
 sub enqueue {
     my ($url) = @_;
 
-    $schema->resultset('Item')->create({
+    $schema->resultset('Item')->find_or_create({
         category => $category,
         url => $url,
     });
