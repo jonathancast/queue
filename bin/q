@@ -1,26 +1,4 @@
-#! /usr/bin/env perl
+#! /bin/sh
 
-use v5.12;
-use warnings;
-
-use FindBin;
-use local::lib $FindBin::Bin =~ s{/bin$}{/local-lib}r;
-use lib $FindBin::Bin =~ s{/bin$}{/lib}r;
-
-use Getopt::Long;
-
-use JCC::Queue::Schema;
-
-my $schema = JCC::Queue::Schema->connect(qq{dbi:SQLite:dbname=$ENV{HOME}/queue.db});
-
-GetOptions(
-    'c|category=s' => \my $category,
-) or die "Error in command line arguments";
-
-my $rs = $schema->resultset('Item')
-    ->search({ category => $category, })
-    ->order_by('id')
-;
-while (my $r = $rs->next()) {
-    say $r->url;
-}
+dir=$(dirname $0)
+java -classpath "$dir/../src:$dir/../vendor/*" Q "$@"
