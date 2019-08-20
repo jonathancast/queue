@@ -11,7 +11,7 @@ use Getopt::Long;
 
 use JCC::Queue::Schema;
 
-my $schema = JCC::Queue::Schema->connect('dbi:SQLite:dbname='.($FindBin::Bin =~ s{/bin$}{/data/queue.db}r));
+my $schema = JCC::Queue::Schema->connect(qq{dbi:SQLite:dbname=$ENV{HOME}/queue.db});
 
 GetOptions(
     'c|category=s' => \my $category,

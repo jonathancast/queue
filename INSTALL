@@ -2,7 +2,7 @@
 
 cpanm -l local-lib -n $(cat ./perl-deps) &&
 mkdir -p data &&
-if [ -f data/queue.db ]; then
+if [ -f $HOME/queue.db ]; then
     ./bin/db prepare --force_overwrite &&
     ./bin/db upgrade
 else

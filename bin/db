@@ -2,4 +2,4 @@
 
 export DBIC_MIGRATION_SCHEMA_CLASS=JCC::Queue::Schema
 eval $(perl -Mlocal::lib=./local-lib)
-exec dbic-migration -Ilib --dsn dbi:SQLite:dbname=data/queue.db --target_dir sql "$@"
+exec dbic-migration -Ilib --dsn dbi:SQLite:dbname=$HOME/queue.db --target_dir sql "$@"
