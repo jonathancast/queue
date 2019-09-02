@@ -3,3 +3,4 @@ DBIx::Class::Candy
 DBIx::Class::Helpers
 DBIx::Class::Migration
 Moops
+IPC::System::Simple
