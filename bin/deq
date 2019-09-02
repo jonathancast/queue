@@ -2,11 +2,12 @@
 
 use v5.12;
 use warnings;
-use autodie qw/ :all /;
 
 use FindBin;
 use local::lib $FindBin::Bin =~ s{/bin$}{/local-lib}r;
 use lib $FindBin::Bin =~ s{/bin$}{/lib}r;
+
+use autodie qw/ :all /; # Needs the local::lib
 
 use Getopt::Long;
 
