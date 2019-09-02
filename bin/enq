@@ -8,6 +8,7 @@ use local::lib $FindBin::Bin =~ s{/bin$}{/local-lib}r;
 use lib $FindBin::Bin =~ s{/bin$}{/lib}r;
 
 use Getopt::Long;
+use Cwd;
 
 use JCC::Queue::Schema;
 
@@ -28,6 +29,12 @@ if (@ARGV) {
 
 sub enqueue {
     my ($url) = @_;
+
+    if ($url !~ m/^https?:/) {
+        $url = abs_path($url);
+    }
+
+    return unless $url;
 
     $schema->resultset('Item')->find_or_create({
         category => $category,
