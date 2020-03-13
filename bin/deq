@@ -7,6 +7,8 @@ use FindBin;
 use local::lib $FindBin::Bin =~ s{/bin$}{/local-lib}r;
 use lib $FindBin::Bin =~ s{/bin$}{/lib}r;
 
+use Try::Tiny;
+
 use autodie qw/ :all /; # Needs the local::lib
 
 use Getopt::Long;
@@ -30,9 +32,9 @@ if ($url) {
     if ($url->url =~ m/^https?:/) {
         system q{browse}, $url->url;
     } elsif ($url->url =~ m/\.mp3$/) {
-        system q{mpg123}, $url->url;
+        system q{mplayer}, $url->url;
     } elsif ($url->url =~ m/\.ogg$/) {
-        system q{ogg123}, $url->url;
+        system q{mplayer}, $url->url;
     } else {
         say $url->url;
     }
