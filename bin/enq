@@ -8,7 +8,8 @@ use local::lib $FindBin::Bin =~ s{/bin$}{/local-lib}r;
 use lib $FindBin::Bin =~ s{/bin$}{/lib}r;
 
 use Getopt::Long;
-use Cwd;
+
+use Cwd qw/ abs_path /;
 
 use JCC::Queue::Schema;
 
