@@ -17,6 +17,7 @@ my $schema = JCC::Queue::Schema->connect(qq{dbi:SQLite:dbname=$ENV{HOME}/queue.d
 
 GetOptions(
     'c|category=s' => \my $category,
+    'a|allow-duplicates' => \my $allow_duplicates,
 ) or die "Error in command line arguments";
 
 if (@ARGV) {
@@ -37,7 +38,9 @@ sub enqueue {
 
     return unless $url;
 
-    $schema->resultset('Item')->find_or_create({
+    my $method = $allow_duplicates ? 'create' : 'find_or_create';
+
+    $schema->resultset('Item')->$method({
         category => $category,
         url => $url,
     });
