@@ -4,3 +4,8 @@ DBIx::Class::Helpers
 DBIx::Class::Migration
 Moops
 IPC::System::Simple
+Data::Dump::Streamer
+Moo
+DBIx::Class::Fixtures
+Data::Visitor
+Hash::FieldHash
