@@ -1,5 +1,71 @@
 #! /bin/sh
 
+if [ "$(whoami)" = root ]; then
+    SUDO=""
+else
+    SUDO=sudo
+fi &&
+if [ -x "$(which apt-get)" ]; then
+    $SUDO apt-get update
+fi &&
+if ! [ -x "$(which make)" ]; then
+    if [ -x "$(which apt-get)" ]; then
+        $SUDO apt-get -y install make
+    else
+        echo 'Cannot find make' 1>&2 &&
+        echo 'Cannot find package manager' 1>&2 &&
+        false
+    fi
+fi &&
+if ! [ -x "$(which gcc)" ]; then
+    if [ -x "$(which apt-get)" ]; then
+        $SUDO apt-get -y install gcc
+    else
+        echo 'Cannot find gcc' 1>&2 &&
+        echo 'Cannot find package manager' 1>&2 &&
+        false
+    fi
+fi &&
+if ! [ -x "$(which perl)" ]; then
+    if [ -x "$(which apt-get)" ]; then
+        $SUDO apt-get -y install perl
+    else
+        echo 'Cannot find perl' 1>&2 &&
+        echo 'Cannot find package manager' 1>&2 &&
+        false
+    fi
+fi &&
+if ! perl -e 'require PerlIO' > /dev/null 2>&1; then
+    if [ -x "$(which apt-get)" ]; then
+        $SUDO apt-get -y install perl-modules
+    else
+        echo 'Cannot find PerlIO' 1>&2 &&
+        echo 'Cannot find package manager' 1>&2 &&
+        false
+    fi
+fi &&
+if ! perl -e 'require local::lib' > /dev/null 2>&1; then
+    if [ -x "$(which apt-get)" ]; then
+        $SUDO apt-get -y install liblocal-lib-perl
+    else
+        echo 'Cannot find local::lib' 1>&2 &&
+        echo 'Cannot find package manager' 1>&2 &&
+        false
+    fi
+fi &&
+if ! [ -x "$(which curl)" ]; then
+    if [ -x "$(which apt-get)" ]; then
+        $SUDO apt-get -y install curl
+    else
+        echo 'Cannot find curl' 1>&2 &&
+        echo 'Cannot find package manager' 1>&2 &&
+        false
+    fi
+fi &&
+PATH="$PATH:$(pwd)/local-lib/bin" &&
+if ! [ -x "$(which cpanm)" ]; then
+    curl -L https://cpanmin.us | perl - -l local-lib App::cpanminus
+fi &&
 cpanm -l local-lib -n $(cat ./perl-deps) &&
 if [ -f $HOME/queue.db ]; then
     ./bin/db upgrade
