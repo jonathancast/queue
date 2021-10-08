@@ -5,7 +5,6 @@ if [ -f $HOME/queue.db ]; then
     ./bin/db prepare --force_overwrite &&
     ./bin/db upgrade
 else
-    ./bin/db prepare --force_overwrite &&
     ./bin/db install
 fi &&
 true
