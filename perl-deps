@@ -1,11 +1,11 @@
 DBIx::Class
 DBIx::Class::Candy
+DBIx::Class::Fixtures
 DBIx::Class::Helpers
 DBIx::Class::Migration
-Moops
-IPC::System::Simple
 Data::Dump::Streamer
-Moo
-DBIx::Class::Fixtures
 Data::Visitor
 Hash::FieldHash
+IPC::System::Simple
+Moo
+Moops
